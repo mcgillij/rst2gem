@@ -56,11 +56,11 @@ if __name__ == "__main__":
         title, date, summary = walk_docstring(doc)
 
         datetime_object = datetime.strptime(date, "%Y-%m-%d %H:%M")
-        filename_gem = os.path.splitext(filename)[0]
+        filename_part = os.path.splitext(filename)[0]
 
         results.append(
             Entry(
-                filename=filename_gem,
+                filename=filename_part,
                 title=title,
                 date=datetime_object.strftime("%Y-%m-%d"),
                 summary=summary,
@@ -71,29 +71,29 @@ if __name__ == "__main__":
     sorted_results.reverse()
 
     HEADER = """
-    ```
-    ▓█████▄ ▓█████  ██▒   █▓ ▒█████   ▒█████   ██▓███    ██████
-    ▒██▀ ██▌▓█   ▀ ▓██░   █▒▒██▒  ██▒▒██▒  ██▒▓██░  ██▒▒██    ▒
-    ░██   █▌▒███    ▓██  █▒░▒██░  ██▒▒██░  ██▒▓██░ ██▓▒░ ▓██▄
-    ░▓█▄   ▌▒▓█  ▄   ▒██ █░░▒██   ██░▒██   ██░▒██▄█▓▒ ▒  ▒   ██▒
-    ░▒████▓ ░▒████▒   ▒▀█░  ░ ████▓▒░░ ████▓▒░▒██▒ ░  ░▒██████▒▒
-     ▒▒▓  ▒ ░░ ▒░ ░   ░ ▐░  ░ ▒░▒░▒░ ░ ▒░▒░▒░ ▒▓▒░ ░  ░▒ ▒▓▒ ▒ ░
-     ░ ▒  ▒  ░ ░  ░   ░ ░░    ░ ▒ ▒░   ░ ▒ ▒░ ░▒ ░     ░ ░▒  ░ ░
-     ░ ░  ░    ░        ░░  ░ ░ ░ ▒  ░ ░ ░ ▒  ░░       ░  ░  ░
-       ░       ░  ░      ░      ░ ░      ░ ░                 ░
-     ░                  ░
-    ```
-    """
+```
+▓█████▄ ▓█████  ██▒   █▓ ▒█████   ▒█████   ██▓███    ██████
+▒██▀ ██▌▓█   ▀ ▓██░   █▒▒██▒  ██▒▒██▒  ██▒▓██░  ██▒▒██    ▒
+░██   █▌▒███    ▓██  █▒░▒██░  ██▒▒██░  ██▒▓██░ ██▓▒░ ▓██▄
+░▓█▄   ▌▒▓█  ▄   ▒██ █░░▒██   ██░▒██   ██░▒██▄█▓▒ ▒  ▒   ██▒
+░▒████▓ ░▒████▒   ▒▀█░  ░ ████▓▒░░ ████▓▒░▒██▒ ░  ░▒██████▒▒
+ ▒▒▓  ▒ ░░ ▒░ ░   ░ ▐░  ░ ▒░▒░▒░ ░ ▒░▒░▒░ ▒▓▒░ ░  ░▒ ▒▓▒ ▒ ░
+ ░ ▒  ▒  ░ ░  ░   ░ ░░    ░ ▒ ▒░   ░ ▒ ▒░ ░▒ ░     ░ ░▒  ░ ░
+ ░ ░  ░    ░        ░░  ░ ░ ░ ▒  ░ ░ ░ ▒  ░░       ░  ░  ░
+   ░       ░  ░      ░      ░ ░      ░ ░                 ░
+ ░                  ░
+```
+"""
 
     FOOTER = """
-    => /atom.xml Atom/RSS to subscribe
+=> /atom.xml Atom/RSS to subscribe
     """
 
     BODY = ""
     for j in sorted_results:
         BODY += f"""
-    => /{j.filename}.gmi {j.date} - {j.title}
-    {j.summary}
+=> /{j.filename}.gmi {j.date} - {j.title}
+{j.summary}
     """
 
     print(f"{HEADER}\n\n{BODY}\n\n{FOOTER}")
