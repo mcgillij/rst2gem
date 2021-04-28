@@ -4,6 +4,10 @@ set -ue
 cd ~/mcgillij.dev/content || exit
 touch index.rst
 sphinx-build -b gemini -C . ../gem_capsule *.rst
+cd pages/
+touch index.rst
+sphinx-build -b gemini -C . ../../gem_capsule *.rst
+cd ..
 rm -rf ../gem_capsule/\{static\}/
 rm index.rst
 python ~/gits/rst2gem/rst2gem.py > ../gem_capsule/index.gmi

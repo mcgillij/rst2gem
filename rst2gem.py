@@ -85,8 +85,15 @@ if __name__ == "__main__":
 ```
 """
 
+    TOP_MENU = """
+=> /about.gmi About
+=> /projects.gmi Projects
+=> /misc.gmi Misc
+=> /atom.xml Atom/RSS
+    """
+
     FOOTER = """
-=> /atom.xml Atom/RSS to subscribe
+Thanks for visiting my capsule!
     """
 
     BODY = ""
@@ -96,4 +103,4 @@ if __name__ == "__main__":
 {j.summary}
     """
 
-    print(f"{HEADER}\n\n{BODY}\n\n{FOOTER}")
+    print(f"{HEADER}\n{TOP_MENU}\n{BODY}\n\n{FOOTER}")
