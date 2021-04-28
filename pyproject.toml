@@ -7,7 +7,6 @@ authors = ["mcgillij <mcgillivray.jason@gmail.com>"]
 [tool.poetry.dependencies]
 python = "^3.9"
 sphinx-gemini-builder = "^1.1.1"
-gemfeed = "^1.1.0"
 
 [tool.poetry.dev-dependencies]
 black = "^20.8b1"

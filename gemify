@@ -7,6 +7,7 @@ sphinx-build -b gemini -C . ../gem_capsule *.rst
 cd pages/
 touch index.rst
 sphinx-build -b gemini -C . ../../gem_capsule *.rst
+rm -rf index.rst
 cd ..
 rm -rf ../gem_capsule/\{static\}/
 rm index.rst
@@ -17,6 +18,5 @@ for filename in ./*.gmi; do
 	sed -i 's/{static}//g' "${filename}"
 done
 cp -Rupv ../content/images ./
-gemfeed -n 25 -b gemini://gemini.mcgillij.dev -t 'DevOops' -s "@mcgillij's blog"
 cd ..
 scp -r gem_capsule ryzen:

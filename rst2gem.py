@@ -2,7 +2,7 @@
 from collections import namedtuple
 import os
 from pathlib import Path
-from datetime import datetime
+from datetime import datetime, date
 from operator import attrgetter
 import docutils
 from docutils.core import publish_doctree
@@ -44,18 +44,55 @@ def walk_docstring(document):
             )
 
 
+def write_out_xml(rss):
+    with open('../gem_capsule/atom.xml', 'w') as opened_file:
+        opened_file.write(rss)
+
+
+def generate_atom_feed(sorted_results):
+    today = date.today()
+    date_string = today.strftime("%Y-%m-%d")
+    xml_top = f"""<?xml version='1.0' encoding='UTF-8'?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+  <id>gemini://gemini.mcgillij.dev/</id>
+  <title>DevOops</title>
+  <updated>{date_string}T00:00:00Z</updated>
+  <link href="gemini://gemini.mcgillij.dev/atom.xml" rel="self"/>
+  <link href="gemini://gemini.mcgillij.dev/" rel="alternate"/>
+  <generator uri="https://github.com/mcgillij/rst2gem" version="0.1.0">
+  rst2gen
+  </generator>
+  <subtitle>@mcgillij's blog</subtitle>
+"""
+
+    xml_footer = "</feed>"
+
+    xml_body = ""
+    for item in sorted_results:
+        xml_body += f"""<entry>
+    <id>gemini://gemini.mcgillij.dev/{item.filename}.gmi</id>
+    <title>{item.title}</title>
+    <updated>{item.date}T00:00:00Z</updated>
+    <link href="gemini://gemini.mcgillij.dev/{item.filename}.gmi"
+    rel="alternate"/>
+  </entry>
+"""
+
+    return f"{xml_top}{xml_body}{xml_footer}"
+
+
 if __name__ == "__main__":
 
     p = Path(".")
     file_list = p.glob("*.rst")
-    title, date, summary = "", "", ""
+    title, date_obj, summary = "", "", ""
     results = []
 
     for filename in file_list:
         doc = open(filename.resolve()).read()
-        title, date, summary = walk_docstring(doc)
+        title, date_obj, summary = walk_docstring(doc)
 
-        datetime_object = datetime.strptime(date, "%Y-%m-%d %H:%M")
+        datetime_object = datetime.strptime(date_obj, "%Y-%m-%d %H:%M")
         filename_part = os.path.splitext(filename)[0]
 
         results.append(
@@ -104,3 +141,7 @@ Thanks for visiting my capsule!
     """
 
     print(f"{HEADER}\n{TOP_MENU}\n{BODY}\n\n{FOOTER}")
+
+    top_x = 25  # number of results to push to rss
+    rss_feed = generate_atom_feed(sorted_results[0:top_x])
+    write_out_xml(rss_feed)
