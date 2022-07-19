@@ -11,11 +11,11 @@ Entry = namedtuple("Entry", ["filename", "title", "date", "summary"])
 
 
 def walk_docstring(document):
-    """ walk over the rst nodes the fields """
+    """walk over the rst nodes the fields"""
     doctree = publish_doctree(document)
 
     class Walker:
-        """ Walker class to iterate over nodes """
+        """Walker class to iterate over nodes"""
 
         def __init__(self, document):
             self.document = document
@@ -25,27 +25,23 @@ def walk_docstring(document):
             self.date = ""
 
         def dispatch_visit(self, x):
-            """ Check all the fields for title, date and summary """
+            """Check all the fields for title, date and summary"""
             if isinstance(x, docutils.nodes.title) and not self.title:
                 self.title = x.pop()
             if isinstance(x, docutils.nodes.date):
                 self.date = x.pop()
             if isinstance(x, docutils.nodes.field):
-                field_name = x.children[0].rawsource
-                field_value = x.children[1].rawsource
+                field_name = x.children[0].astext()
+                field_value = x.children[1].astext()
                 self.fields[field_name] = field_value
 
     walk = Walker(doctree)
     doctree.walk(walk)
-    return (
-            walk.title.rawsource,
-            walk.date.rawsource,
-            walk.fields.get("summary")
-            )
+    return (walk.title.astext(), walk.date.astext(), walk.fields.get("summary"))
 
 
 def write_out_xml(rss):
-    with open('../gem_capsule/atom.xml', 'w') as opened_file:
+    with open("../gem_capsule/atom.xml", "w") as opened_file:
         opened_file.write(rss)
 
 
