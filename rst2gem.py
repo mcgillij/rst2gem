@@ -121,7 +121,6 @@ if __name__ == "__main__":
     TOP_MENU = """
 => /about.gmi About
 => /projects.gmi Projects
-=> /misc.gmi Misc
 => /atom.xml Atom/RSS
     """
 
